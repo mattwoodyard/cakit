@@ -9,7 +9,7 @@ use openssl::x509::X509;
 use std::fs::File;
 use std::io::Read;
 
-use crate::types::Certificate;
+// use crate::types::Certificate;
 
 struct CertificateAuthoritySigner {
     key: PKey<Private>,
@@ -39,9 +39,9 @@ struct CertificateAuthority {
     // validation_rules: Option<Vec<JMESPath>>,
 }
 
-trait Sign<B> {
-    fn sign(&self, obj: B) -> Result<Certificate, SignError>;
-}
+// trait Sign<B> {
+//     fn sign(&self, obj: B) -> Result<Certificate, SignError>;
+// }
 
 pub enum SignError {
     Other(String),
@@ -54,57 +54,57 @@ impl From<ErrorStack> for SignError {
     }
 }
 
-impl Sign<Certificate> for CertificateAuthority {
-    fn sign(&self, obj: Certificate) -> Result<Certificate, SignError> {
-        let mut builder = X509::builder()?;
-        builder.set_version(2)?;
-        builder.set_issuer_name(self.signer.cert.subject_name())?;
-        builder.set_pubkey(&obj.pubkey())?;
+// impl Sign<Certificate> for CertificateAuthority {
+//     fn sign(&self, obj: Certificate) -> Result<Certificate, SignError> {
+//         let mut builder = X509::builder()?;
+//         builder.set_version(2)?;
+//         builder.set_issuer_name(self.signer.cert.subject_name())?;
+//         builder.set_pubkey(&obj.pubkey())?;
 
-        let serial_number = {
-            let mut serial = BigNum::new()?;
-            serial.rand(159, MsbOption::MAYBE_ZERO, false)?;
-            serial.to_asn1_integer()?
-        };
+//         let serial_number = {
+//             let mut serial = BigNum::new()?;
+//             serial.rand(159, MsbOption::MAYBE_ZERO, false)?;
+//             serial.to_asn1_integer()?
+//         };
 
-        builder.set_serial_number(&serial_number)?;
+//         builder.set_serial_number(&serial_number)?;
 
-        let nb = Asn1Time::from_unix(obj.validity.not_before as i64)?;
-        let na = Asn1Time::from_unix(obj.validity.not_after as i64)?;
+//         let nb = Asn1Time::from_unix(obj.validity.not_before as i64)?;
+//         let na = Asn1Time::from_unix(obj.validity.not_after as i64)?;
 
-        builder.set_not_before(&nb)?;
-        builder.set_not_after(&na)?;
+//         builder.set_not_before(&nb)?;
+//         builder.set_not_after(&na)?;
 
-        //        match cert.subject_alt_names() {
-        //            Some(names) => {
-        //                //let _:Vec<Option<()>> = names
-        //                let sans = names
-        //                    .iter()
-        //                    .fold(SubjectAlternativeName::new(), |mut st, n| {
-        //                        n.dnsname()
-        //                            .map(|n1| {
-        //                                // println!("SAN: {:?}", n1);
-        //                                st.dns(n1.clone())
-        //                            })
-        //                            .unwrap();
-        //                        st
-        //                    });
-        //                let ext = sans
-        //                    .build(&builder.x509v3_context(Some(&self.cert), None))
-        //                    .unwrap();
-        //                builder.append_extension(ext).unwrap();
-        // }
-        // None => {}
-        // }
+//         //        match cert.subject_alt_names() {
+//         //            Some(names) => {
+//         //                //let _:Vec<Option<()>> = names
+//         //                let sans = names
+//         //                    .iter()
+//         //                    .fold(SubjectAlternativeName::new(), |mut st, n| {
+//         //                        n.dnsname()
+//         //                            .map(|n1| {
+//         //                                // println!("SAN: {:?}", n1);
+//         //                                st.dns(n1.clone())
+//         //                            })
+//         //                            .unwrap();
+//         //                        st
+//         //                    });
+//         //                let ext = sans
+//         //                    .build(&builder.x509v3_context(Some(&self.cert), None))
+//         //                    .unwrap();
+//         //                builder.append_extension(ext).unwrap();
+//         // }
+//         // None => {}
+//         // }
 
-        // builder.set_subject_name(obj.subject_name())?;
+//         // builder.set_subject_name(obj.subject_name())?;
 
-        let subject_key_identifier =
-            SubjectKeyIdentifier::new().build(&builder.x509v3_context(None, None))?;
-        builder.append_extension(subject_key_identifier)?;
-        builder.sign(&self.signer.key, MessageDigest::sha256())?;
-        let cert = builder.build();
+//         let subject_key_identifier =
+//             SubjectKeyIdentifier::new().build(&builder.x509v3_context(None, None))?;
+//         builder.append_extension(subject_key_identifier)?;
+//         builder.sign(&self.signer.key, MessageDigest::sha256())?;
+//         let cert = builder.build();
 
-        Ok(Certificate::from(&cert))
-    }
-}
+//         Ok(Certificate::from(&cert))
+//     }
+// }
