@@ -1,0 +1,47 @@
+[package]
+name = "ca"
+version = "0.1.0"
+authors = ["Matt Woodyard <matt@mattwoodyard.com>"]
+edition = "2018"
+
+#[lib]
+
+
+[dependencies]
+bincode = "*"
+base64 = "*"
+criterion = "*"
+bytes="*"
+clap = "*"
+der-parser =  {version = "*", features = ["serialize"]}
+env_logger = "*"
+futures = "0.1"
+fst = "*"
+foreign-types = "*"
+foreign-types-shared = "*"
+http ="*"
+httparse = "*"
+hyper ="*"
+mktemp = "*"
+openssl = "*"
+openssl-sys = "*"
+# x509-parser = { version = "0.9.0" }
+x509-parser = "*"
+# boringssl = "*"
+# boringssl-sys = "*"
+pretty_env_logger = "*"
+reqwest = "*"
+rand ="*"
+serde = "*"
+serde_derive = "*"
+serde_json = "*"
+rusqlite = "*"
+tempdir = "*"
+tempfile = "*"
+uri = "*"
+url ="*"
+uuid = { version = "*", features = ["serde", "v4"] }
+warp = "*"
+tower = "*"
+# jmespath = "*"
+
